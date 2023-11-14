@@ -30,7 +30,6 @@ final class RickAndMortyAppTests: XCTestCase {
         XCTAssert(homeViewModel.rickAndMortyCharacters?[2].name == rickSanchez.name)
     }
     
-    
     func testFetchCharactersErrorThrown() async {
         let error = URLError(.badServerResponse)
         networkService.errorThrownFetchCharacters = error

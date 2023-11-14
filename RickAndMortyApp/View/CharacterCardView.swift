@@ -19,7 +19,7 @@ struct CharacterCardView: View {
     var body: some View {
         
         HStack(alignment: .top) {
-            CustomImageView(imageURL: character.image, homeViewModel: homeViewModel)
+            CustomImageView(imageURL: character.image)
                 .frame(width: 100, height: 100)
 
             VStack(alignment: .leading) {

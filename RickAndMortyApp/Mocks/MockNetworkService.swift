@@ -10,6 +10,7 @@ import UIKit
 import Combine
 
 final class MockNetworkService: ObservableObject, NetworkServiceRequests {
+    
     var errorThrownFetchCharacters: Error?
     var errorThrownFetchImage: Error?
    

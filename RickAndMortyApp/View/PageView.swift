@@ -9,9 +9,11 @@ import SwiftUI
 
 struct PageView: View {
     @ObservedObject var homeViewModel: HomeViewModel
+    
     init(homeViewModel: HomeViewModel) {
         self.homeViewModel = homeViewModel
     }
+    
     var body: some View {
         HStack(alignment: .center) {
             Spacer()

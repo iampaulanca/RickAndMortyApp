@@ -11,10 +11,9 @@ import SwiftUI
 struct CustomImageView: View {
     @State var image: Image?
     private var imageURL: String
-    private var homeViewModel: HomeViewModel
-    init(imageURL: String, homeViewModel: HomeViewModel) {
+    
+    init(imageURL: String) {
         self.imageURL = imageURL
-        self.homeViewModel = homeViewModel
     }
 
     var body: some View {
@@ -29,8 +28,12 @@ struct CustomImageView: View {
         }
         .onAppear {
             Task {
-                if let uiImage = await homeViewModel.fetchImageFrom(urlString: imageURL) {
-                    self.image = Image(uiImage: uiImage)
+                do {
+                    if let uiImage = try await NetworkService().fetchImageFrom(urlString: imageURL) {
+                        self.image = Image(uiImage: uiImage)
+                    }
+                } catch {
+                    self.image = Image(systemName: "wifi.slash")
                 }
             }
         }
@@ -38,6 +41,5 @@ struct CustomImageView: View {
 }
 
 #Preview {
-    CustomImageView(imageURL: "",
-                    homeViewModel: HomeViewModel(service: NetworkService()))
+    CustomImageView(imageURL: "")
 }

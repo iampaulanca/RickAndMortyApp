@@ -10,6 +10,7 @@ import UIKit
 
 struct HomeView: View {
     @StateObject var homeViewModel = HomeViewModel(service: NetworkService())
+    
     var body: some View {
         VStack {
             PageView(homeViewModel: homeViewModel)
