@@ -1,0 +1,2 @@
+# RickAndMortyApp
+SwiftUI Practice
