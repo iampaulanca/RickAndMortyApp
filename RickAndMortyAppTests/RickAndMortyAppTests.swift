@@ -6,9 +6,7 @@
 //
 
 import XCTest
-import UIKit
 import SwiftUI
-import Foundation
 @testable import RickAndMortyApp
 
 final class RickAndMortyAppTests: XCTestCase {
@@ -55,31 +53,4 @@ final class RickAndMortyAppTests: XCTestCase {
         XCTAssertTrue(homeViewModel.errorShow)
     }
 
-}
-
-class MockHomeViewModel: HomeViewModel {
-    
-}
-
-class MockNetworkService: NetworkService {
-    var errorThrownFetchCharacters: Error?
-    var errorThrownFetchImage: Error?
-   
-    override func fetchCharacters(page: Int = 1) async throws {
-        if let errorThrownFetchCharacters = errorThrownFetchCharacters {
-            throw errorThrownFetchCharacters
-        }
-        
-        self.characters = [rickSanchez, rickSanchez, rickSanchez]
-    }
-    
-    override func fetchImageFrom(urlString: String) async throws -> UIImage? {
-        if let errorThrownFetchImage = errorThrownFetchImage {
-            throw errorThrownFetchImage
-        }
-        
-        var uiImage: UIImage? = UIImage(systemName: "house")
-        return uiImage
-    }
-    
 }

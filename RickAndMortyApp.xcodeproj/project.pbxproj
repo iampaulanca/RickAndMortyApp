@@ -22,6 +22,7 @@
 		788902D12B028DE500767847 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788902D02B028DE500767847 /* CustomImageView.swift */; };
 		788902D32B028E3300767847 /* RickAndMortyCharacterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788902D22B028E3300767847 /* RickAndMortyCharacterResponse.swift */; };
 		788902D52B0327AE00767847 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788902D42B0327AE00767847 /* PageView.swift */; };
+		788902D82B03333800767847 /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788902D72B03333800767847 /* MockNetworkService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		788902D02B028DE500767847 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		788902D22B028E3300767847 /* RickAndMortyCharacterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RickAndMortyCharacterResponse.swift; sourceTree = "<group>"; };
 		788902D42B0327AE00767847 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
+		788902D72B03333800767847 /* MockNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 		788902952B019D6D00767847 /* RickAndMortyApp */ = {
 			isa = PBXGroup;
 			children = (
+				788902D62B03331B00767847 /* Mocks */,
 				788902C62B019D9D00767847 /* Stuff that came by default */,
 				788902C52B019D9200767847 /* Service */,
 				788902C42B019D8300767847 /* ViewModel */,
@@ -189,6 +192,14 @@
 				7889029A2B019D6D00767847 /* Item.swift */,
 			);
 			path = "Stuff that came by default";
+			sourceTree = "<group>";
+		};
+		788902D62B03331B00767847 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				788902D72B03333800767847 /* MockNetworkService.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -325,6 +336,7 @@
 				788902D12B028DE500767847 /* CustomImageView.swift in Sources */,
 				788902C82B019DB400767847 /* HomeView.swift in Sources */,
 				7889029B2B019D6D00767847 /* Item.swift in Sources */,
+				788902D82B03333800767847 /* MockNetworkService.swift in Sources */,
 				788902CF2B02696800767847 /* CharacterCardView.swift in Sources */,
 				788902D52B0327AE00767847 /* PageView.swift in Sources */,
 				788902CB2B019DDA00767847 /* HomeViewModel.swift in Sources */,
