@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 final class NetworkService: ObservableObject, NetworkServiceRequests {
-    @Published var characters: [RickAndMortyCharacter]? = nil
     
     func fetchCharacters(page: Int = 1) async throws -> [RickAndMortyCharacter] {
         let urlString = "https://rickandmortyapi.com/api/character?page=\(page)"
