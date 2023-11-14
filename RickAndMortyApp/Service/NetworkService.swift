@@ -8,17 +8,17 @@
 import Foundation
 import UIKit
 
-class NetworkService: ObservableObject {
+final class NetworkService: ObservableObject, NetworkServiceRequests {
     @Published var characters: [RickAndMortyCharacter]? = nil
     
-    func fetchCharacters(page: Int = 1) async throws {
+    func fetchCharacters(page: Int = 1) async throws -> [RickAndMortyCharacter] {
         let urlString = "https://rickandmortyapi.com/api/character?page=\(page)"
         guard let url = URL(string: urlString) else { throw URLError(.badURL) }
         let request = URLRequest(url: url)
         let (data, response) = try await URLSession.shared.data(for: request)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw URLError(.badServerResponse) }
         let characters = try JSONDecoder().decode(RickAndMortyCharactersResponse.self, from: data)
-        self.characters = characters.results
+        return characters.results
     }
     
     func fetchImageFrom(urlString: String) async throws -> UIImage? {
@@ -29,4 +29,9 @@ class NetworkService: ObservableObject {
         result = UIImage(data: data)
         return result
     }
+}
+
+protocol NetworkServiceRequests {
+    func fetchCharacters(page: Int) async throws -> [RickAndMortyCharacter]
+    func fetchImageFrom(urlString: String) async throws -> UIImage?
 }

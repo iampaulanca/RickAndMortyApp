@@ -9,7 +9,12 @@ import SwiftUI
 
 struct CharacterCardView: View {
     @ObservedObject var homeViewModel: HomeViewModel
-    var character: RickAndMortyCharacter
+    private var character: RickAndMortyCharacter
+    
+    init(homeViewModel: HomeViewModel, character: RickAndMortyCharacter) {
+        self.homeViewModel = homeViewModel
+        self.character = character
+    }
     
     var body: some View {
         

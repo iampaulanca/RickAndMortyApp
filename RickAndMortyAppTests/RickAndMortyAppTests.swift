@@ -11,7 +11,7 @@ import SwiftUI
 
 final class RickAndMortyAppTests: XCTestCase {
     var homeViewModel: HomeViewModel!
-    var networkService: NetworkService!
+    var networkService: NetworkServiceRequests!
 
     override func setUp() async throws {
         self.networkService = MockNetworkService()
@@ -23,7 +23,7 @@ final class RickAndMortyAppTests: XCTestCase {
     }
     
     func testFetchCharactersOnInit() async {
-        var homeViewModel = MockHomeViewModel(service: networkService)
+        let homeViewModel = MockHomeViewModel(service: networkService)
         try! await Task.sleep(for: .seconds(1))
         XCTAssertNotNil(homeViewModel.rickAndMortyCharacters)
         XCTAssert(homeViewModel.rickAndMortyCharacters?[0].name == rickSanchez.name)
@@ -34,9 +34,9 @@ final class RickAndMortyAppTests: XCTestCase {
     
     func testFetchCharactersErrorThrown() async {
         let error = URLError(.badServerResponse)
-        var networkService = MockNetworkService()
+        let networkService = MockNetworkService()
         networkService.errorThrownFetchCharacters = error
-        var homeViewModel = MockHomeViewModel(service: networkService)
+        let homeViewModel = MockHomeViewModel(service: networkService)
         try! await Task.sleep(for: .seconds(1))
         XCTAssertFalse(homeViewModel.errorString.isEmpty)
         XCTAssertTrue(homeViewModel.errorShow)
@@ -44,9 +44,9 @@ final class RickAndMortyAppTests: XCTestCase {
     
     func testFetchImageErrorThrown() async {
         let error = URLError(.badServerResponse)
-        var networkService = MockNetworkService()
+        let networkService = MockNetworkService()
         networkService.errorThrownFetchImage = error
-        var homeViewModel = MockHomeViewModel(service: networkService)
+        let homeViewModel = MockHomeViewModel(service: networkService)
         _ = await homeViewModel.fetchImageFrom(urlString: "https://someURL.com")
         try! await Task.sleep(for: .seconds(1))
         XCTAssertFalse(homeViewModel.errorString.isEmpty)

@@ -10,12 +10,13 @@ import SwiftUI
 
 struct CustomImageView: View {
     @State var image: Image?
-    var imageURL: String
-    var homeViewModel: HomeViewModel
+    private var imageURL: String
+    private var homeViewModel: HomeViewModel
     init(imageURL: String, homeViewModel: HomeViewModel) {
         self.imageURL = imageURL
         self.homeViewModel = homeViewModel
     }
+
     var body: some View {
         VStack {
             if let image = image {

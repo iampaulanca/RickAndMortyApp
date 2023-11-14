@@ -10,7 +10,8 @@ import Combine
 import UIKit
 
 class HomeViewModel: ObservableObject {
-    private var service: NetworkService
+    private var service: NetworkServiceRequests
+    private var cancellables = Set<AnyCancellable>()
     @Published var rickAndMortyCharacters: [RickAndMortyCharacter]? = nil
     @Published var errorString: String = ""
     @Published var errorShow: Bool = false
@@ -19,16 +20,16 @@ class HomeViewModel: ObservableObject {
     var minPage: Int = 1
     var maxPage: Int = 42
     
-    var cancellables = Set<AnyCancellable>()
-    
-    init(service: NetworkService) {
+    init(service: NetworkServiceRequests) {
         self.service = service
         self.subscribers()
     }
     
+    @MainActor
     func fetchCharacters() async {
         do {
-            try await service.fetchCharacters(page: self.page)
+            self.rickAndMortyCharacters = try await service.fetchCharacters(page: self.page)
+            self.topID = self.rickAndMortyCharacters?.first?.id ?? 1
         } catch {
             errorHandling(error: error)
         }
@@ -54,13 +55,5 @@ class HomeViewModel: ObservableObject {
                 await self.fetchCharacters()
             }
         }.store(in: &cancellables)
-        
-        service.$characters
-            .receive(on: DispatchQueue.main)
-            .sink { characters in
-                self.rickAndMortyCharacters = characters
-                self.topID = self.rickAndMortyCharacters?.first?.id ?? 1
-        }
-        .store(in: &cancellables)
     }
 }

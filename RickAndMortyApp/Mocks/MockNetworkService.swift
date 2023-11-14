@@ -7,19 +7,20 @@
 
 import Foundation
 import UIKit
+import Combine
 
-class MockNetworkService: NetworkService {
+final class MockNetworkService: ObservableObject, NetworkServiceRequests {
     var errorThrownFetchCharacters: Error?
     var errorThrownFetchImage: Error?
    
-    override func fetchCharacters(page: Int = 1) async throws {
+    func fetchCharacters(page: Int = 1) async throws -> [RickAndMortyCharacter] {
         if let errorThrownFetchCharacters = errorThrownFetchCharacters {
             throw errorThrownFetchCharacters
         }
-        self.characters = [rickSanchez, rickSanchez, rickSanchez]
+        return [rickSanchez, rickSanchez, rickSanchez]
     }
     
-    override func fetchImageFrom(urlString: String) async throws -> UIImage? {
+    func fetchImageFrom(urlString: String) async throws -> UIImage? {
         if let errorThrownFetchImage = errorThrownFetchImage {
             throw errorThrownFetchImage
         }
@@ -29,4 +30,4 @@ class MockNetworkService: NetworkService {
     
 }
 
-class MockHomeViewModel: HomeViewModel {}
+final class MockHomeViewModel: HomeViewModel {}
