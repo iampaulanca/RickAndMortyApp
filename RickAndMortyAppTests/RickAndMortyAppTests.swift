@@ -6,31 +6,80 @@
 //
 
 import XCTest
+import UIKit
+import SwiftUI
+import Foundation
 @testable import RickAndMortyApp
 
 final class RickAndMortyAppTests: XCTestCase {
+    var homeViewModel: HomeViewModel!
+    var networkService: NetworkService!
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    override func setUp() async throws {
+        self.networkService = MockNetworkService()
+        self.homeViewModel = MockHomeViewModel(service: networkService)
+    }
+    
+    func testSanity() {
+        XCTAssert(1==1)
+    }
+    
+    func testFetchCharactersOnInit() async {
+        var homeViewModel = MockHomeViewModel(service: networkService)
+        try! await Task.sleep(for: .seconds(1))
+        XCTAssertNotNil(homeViewModel.rickAndMortyCharacters)
+        XCTAssert(homeViewModel.rickAndMortyCharacters?[0].name == rickSanchez.name)
+        XCTAssert(homeViewModel.rickAndMortyCharacters?[1].name == rickSanchez.name)
+        XCTAssert(homeViewModel.rickAndMortyCharacters?[2].name == rickSanchez.name)
+    }
+    
+    
+    func testFetchCharactersErrorThrown() async {
+        let error = URLError(.badServerResponse)
+        var networkService = MockNetworkService()
+        networkService.errorThrownFetchCharacters = error
+        var homeViewModel = MockHomeViewModel(service: networkService)
+        try! await Task.sleep(for: .seconds(1))
+        XCTAssertFalse(homeViewModel.errorString.isEmpty)
+        XCTAssertTrue(homeViewModel.errorShow)
+    }
+    
+    func testFetchImageErrorThrown() async {
+        let error = URLError(.badServerResponse)
+        var networkService = MockNetworkService()
+        networkService.errorThrownFetchImage = error
+        var homeViewModel = MockHomeViewModel(service: networkService)
+        _ = await homeViewModel.fetchImageFrom(urlString: "https://someURL.com")
+        try! await Task.sleep(for: .seconds(1))
+        XCTAssertFalse(homeViewModel.errorString.isEmpty)
+        XCTAssertTrue(homeViewModel.errorShow)
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+}
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
+class MockHomeViewModel: HomeViewModel {
+    
+}
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+class MockNetworkService: NetworkService {
+    var errorThrownFetchCharacters: Error?
+    var errorThrownFetchImage: Error?
+   
+    override func fetchCharacters(page: Int = 1) async throws {
+        if let errorThrownFetchCharacters = errorThrownFetchCharacters {
+            throw errorThrownFetchCharacters
         }
+        
+        self.characters = [rickSanchez, rickSanchez, rickSanchez]
     }
-
+    
+    override func fetchImageFrom(urlString: String) async throws -> UIImage? {
+        if let errorThrownFetchImage = errorThrownFetchImage {
+            throw errorThrownFetchImage
+        }
+        
+        var uiImage: UIImage? = UIImage(systemName: "house")
+        return uiImage
+    }
+    
 }
