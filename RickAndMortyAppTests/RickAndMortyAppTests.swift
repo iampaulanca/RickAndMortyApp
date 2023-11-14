@@ -11,7 +11,7 @@ import SwiftUI
 
 final class RickAndMortyAppTests: XCTestCase {
     var homeViewModel: HomeViewModel!
-    var networkService: NetworkServiceRequests!
+    var networkService: MockNetworkService!
 
     override func setUp() async throws {
         self.networkService = MockNetworkService()
@@ -23,7 +23,6 @@ final class RickAndMortyAppTests: XCTestCase {
     }
     
     func testFetchCharactersOnInit() async {
-        let homeViewModel = MockHomeViewModel(service: networkService)
         try! await Task.sleep(for: .seconds(1))
         XCTAssertNotNil(homeViewModel.rickAndMortyCharacters)
         XCTAssert(homeViewModel.rickAndMortyCharacters?[0].name == rickSanchez.name)
@@ -34,7 +33,6 @@ final class RickAndMortyAppTests: XCTestCase {
     
     func testFetchCharactersErrorThrown() async {
         let error = URLError(.badServerResponse)
-        let networkService = MockNetworkService()
         networkService.errorThrownFetchCharacters = error
         let homeViewModel = MockHomeViewModel(service: networkService)
         try! await Task.sleep(for: .seconds(1))
@@ -44,9 +42,7 @@ final class RickAndMortyAppTests: XCTestCase {
     
     func testFetchImageErrorThrown() async {
         let error = URLError(.badServerResponse)
-        let networkService = MockNetworkService()
         networkService.errorThrownFetchImage = error
-        let homeViewModel = MockHomeViewModel(service: networkService)
         _ = await homeViewModel.fetchImageFrom(urlString: "https://someURL.com")
         try! await Task.sleep(for: .seconds(1))
         XCTAssertFalse(homeViewModel.errorString.isEmpty)
